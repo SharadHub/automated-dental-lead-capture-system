@@ -337,18 +337,6 @@ cd ../client && npm install
 
 ### 6. Run the Application
 
-**Option A — Convenience script (recommended):**
-
-```bash
-# From the project root
-chmod +x start.sh
-./start.sh
-```
-
-This starts both the backend and frontend concurrently. Press `Ctrl+C` to stop both.
-
-**Option B — Manual (two terminals):**
-
 ```bash
 # Terminal 1 — Backend
 cd server
