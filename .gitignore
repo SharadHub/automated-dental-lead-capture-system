@@ -1,3 +1,10 @@
+# Project-specific
+start.sh
+push-boilerplate.sh
+dental.csv
+*.csv
+website-assets/
+
 # Logs
 logs
 *.log
