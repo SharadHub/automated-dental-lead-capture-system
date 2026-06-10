@@ -4,27 +4,26 @@ import Footer  from '../Landing/sections/Footer';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 import { CLINIC, SERVICES } from '../../data/clinicData';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
+import { FiMonitor, FiAward, FiGrid, FiClock, FiDollarSign, FiStar } from 'react-icons/fi';
 
 /* ── Assets ── */
 import doctorImg      from '../../assets/images/doctor.png';
 import clinicPhoto    from '../../assets/images/kari-bjorn-photography-Fdku_oMrDvk-unsplash.jpg';
 import teamPhoto      from '../../assets/images/navy-medicine-aCJ2jt9yvoA-unsplash.jpg';
 import smilePhoto     from '../../assets/images/lesly-juarez-1AhGNGKuhR0-unsplash.jpg';
+import filipPhoto from '../../assets/images/filip-rankovic-grobgaard-joILn6p_oeM-unsplash.jpg';
 import dentalCloseup  from '../../assets/images/ozkan-guner-6E-3v5NZxMw-unsplash.jpg';
 import stockPhoto     from '../../assets/images/istockphoto-1419895646-1024x1024.jpg';
-import happyFaceImg   from '../../assets/images/happy-face.png';
 import dentalCareImg  from '../../assets/images/dental-care.png';
 import implantImg     from '../../assets/images/dental-implant.png';
-import bracesImg      from '../../assets/images/braces.png';
-import clockImg       from '../../assets/images/clock.png';
 import medicalImg     from '../../assets/images/medical-appointment.png';
-import checkBoxImg    from '../../assets/images/undraw_checking-boxes_j0im.svg';
+
 import blobImg        from '../../assets/images/blob-haikei.svg';
 
 /* ── Hero ── */
 function AboutHero() {
   return (
-    <section className="relative min-h-[65vh] flex items-end overflow-hidden">
+    <section className="relative min-h-[85vh] flex items-end overflow-hidden">
       <img src={teamPhoto} alt={`${CLINIC.name} team`} className="absolute inset-0 w-full h-full object-cover object-center" />
       <div className="absolute inset-0 bg-gradient-to-t from-primary-900/90 via-primary-800/60 to-primary-700/30" />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -188,12 +187,12 @@ function MeetTheDoctor() {
 function WhyChooseUs() {
   const ref = useScrollAnimation();
   const reasons = [
-    { img: dentalCareImg, title: 'Modern Equipment',    desc: 'Digital X-rays, rotary root canal, and the latest sterilisation protocols for your safety.' },
-    { img: implantImg,    title: 'Proven Expertise',    desc: `${CLINIC.doctor} brings precision and skill to every procedure, from simple cleanings to complex implants.` },
-    { img: bracesImg,     title: 'All Treatments',      desc: 'Nine specialties under one roof — no need for multiple referrals.' },
-    { img: clockImg,      title: 'Generous Hours',      desc: 'Open 10 AM – 8 PM, Sunday through Friday. Plenty of evening slots.' },
-    { img: medicalImg,    title: 'Transparent Pricing', desc: 'Clear costs before treatment begins. No hidden fees, no surprises.' },
-    { img: happyFaceImg,  title: `${CLINIC.reviewsText} 5★ Reviews`, desc: `The highest-rated dental clinic in ${CLINIC.city} on Google Maps.` },
+    { Icon: FiMonitor,     title: 'Modern Equipment',    desc: 'Digital X-rays, rotary root canal, and the latest sterilisation protocols for your safety.' },
+    { Icon: FiAward,       title: 'Proven Expertise',    desc: `${CLINIC.doctor} brings precision and skill to every procedure, from simple cleanings to complex implants.` },
+    { Icon: FiGrid,        title: 'All Treatments',      desc: 'Nine specialties under one roof — no need for multiple referrals.' },
+    { Icon: FiClock,       title: 'Generous Hours',      desc: 'Open 10 AM – 8 PM, Sunday through Friday. Plenty of evening slots.' },
+    { Icon: FiDollarSign,  title: 'Transparent Pricing', desc: 'Clear costs before treatment begins. No hidden fees, no surprises.' },
+    { Icon: FiStar,        title: `${CLINIC.reviewsText} 5★ Reviews`, desc: `The highest-rated dental clinic in ${CLINIC.city} on Google Maps.` },
   ];
   return (
     <section className="py-28 bg-gradient-to-br from-primary-700 via-primary-600 to-teal-600 relative overflow-hidden" ref={ref}>
@@ -208,10 +207,10 @@ function WhyChooseUs() {
           <p data-anim className="reveal anim-d2 text-white/80 text-lg max-w-lg mx-auto">More than great dentistry — an experience worth smiling about.</p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reasons.map(({ img, title, desc }, i) => (
+          {reasons.map(({ Icon, title, desc }, i) => (
             <div key={title} data-anim className={`reveal anim-d${(i % 3) + 1} bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-colors group`}>
               <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                <img src={img} alt={title} className="w-8 h-8 object-contain filter brightness-0 invert" />
+                <Icon className="w-7 h-7 text-white" />
               </div>
               <h3 className="text-white font-bold text-base mb-2">{title}</h3>
               <p className="text-white/75 text-sm leading-relaxed">{desc}</p>
@@ -228,6 +227,7 @@ function Gallery() {
   const ref = useScrollAnimation();
   const photos = [
     { src: smilePhoto,   alt: 'Happy patient' },
+    { src: filipPhoto, alt: 'Digital dental scan' },
     { src: stockPhoto,   alt: 'Dental treatment' },
     { src: clinicPhoto,  alt: 'Clinic interior' },
     { src: dentalCloseup, alt: 'Dental care close-up' },
@@ -261,7 +261,6 @@ function AboutCTA() {
           <div className="absolute -top-12 -left-12 w-48 h-48 bg-white/10 rounded-full blur-2xl" />
           <div className="absolute -bottom-12 -right-12 w-64 h-64 bg-teal-400/20 rounded-full blur-2xl" />
           <div className="relative z-10">
-            <img src={checkBoxImg} alt="" className="w-28 mx-auto mb-6 opacity-80 filter brightness-0 invert" />
             <h2 className="text-4xl font-extrabold text-white mb-4">Ready to Visit Us?</h2>
             <p className="text-white/85 text-lg max-w-xl mx-auto mb-8 leading-relaxed">
               Find us at {CLINIC.address}. Open Sun–Fri, 10 AM – 8 PM.

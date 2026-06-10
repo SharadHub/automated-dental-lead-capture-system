@@ -11,7 +11,6 @@ import medicalImg  from '../../assets/images/medical-appointment.png';
 import clockImg    from '../../assets/images/clock.png';
 import clinicPhoto from '../../assets/images/kari-bjorn-photography-Fdku_oMrDvk-unsplash.jpg';
 import sirenImg    from '../../assets/images/siren.png';
-import checkBoxImg from '../../assets/images/undraw_checking-boxes_j0im.svg';
 
 const SERVICES_LIST = [
   'General Checkup & Cleaning', 'Teeth Whitening / Cosmetic', 'Dental Implants',
@@ -41,117 +40,6 @@ const FALLBACK_SLOTS = [
   '5:00 PM',  '5:30 PM',  '6:00 PM',  '6:30 PM',
   '7:00 PM',  '7:30 PM',
 ];
-
-/* ══════════════════════════════════════════════════════════
-   Section 1 — Request Free Consultation
-   ══════════════════════════════════════════════════════════ */
-function ConsultationSection() {
-  const ref = useScrollAnimation();
-  const [form, setForm]     = useState({ name: '', phone: '', service: '' });
-  const [status, setStatus] = useState('idle');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('loading');
-    try {
-      await fetch('/api/prospects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source: 'website', message: `Consultation request for: ${form.service}` }),
-      });
-    } catch { /* best-effort */ }
-
-    setStatus('success');
-    setTimeout(() => {
-      setStatus('idle');
-      setForm({ name: '', phone: '', service: '' });
-    }, 1000);
-  };
-
-  return (
-    <section id="consultation" className="py-24 bg-white" ref={ref}>
-      <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-14 items-center">
-
-        {/* Left: benefits */}
-        <div data-anim className="reveal-left">
-          <span className="section-tag">Free · No Commitment</span>
-          <h2 className="text-4xl font-extrabold text-gray-900 mt-3 mb-5 leading-tight">
-            Request a Free<br />Consultation
-          </h2>
-          <p className="text-gray-700 text-lg leading-relaxed mb-8">
-            Not sure where to start? Tell us your concern and {CLINIC.doctor} will call you back to discuss your options — completely free.
-          </p>
-
-          <ul className="space-y-4 mb-8">
-            {[
-              ['🎯', 'Personalised advice for your specific concern'],
-              ['⏱️', 'We call back within 24 hours'],
-              ['💰', 'Zero cost, zero obligation'],
-              ['🗓️', 'Quick — takes under 30 seconds to submit'],
-            ].map(([icon, text]) => (
-              <li key={text} className="flex items-center gap-3 text-gray-700">
-                <span className="text-xl w-7 flex-shrink-0">{icon}</span>
-                <span>{text}</span>
-              </li>
-            ))}
-          </ul>
-
-          <img src={checkBoxImg} alt="" className="w-52 opacity-70" />
-        </div>
-
-        {/* Right: form */}
-        <div data-anim className="reveal-right">
-          <div className="bg-gradient-to-br from-primary-50 to-teal-50 rounded-2xl p-8 border border-primary-100 shadow-sm">
-            {status === 'success' ? (
-              <div className="py-10 text-center">
-                <div className="text-5xl mb-3">✅</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Request Received!</h3>
-                <p className="text-gray-700">We'll call you within 24 hours to confirm your appointment.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <h3 className="text-xl font-bold text-gray-900 mb-5">Your Details</h3>
-                <input
-                  className="input-field"
-                  placeholder="Full Name *"
-                  value={form.name}
-                  onChange={e => setForm({ ...form, name: e.target.value })}
-                  required
-                />
-                <input
-                  className="input-field"
-                  placeholder="Phone Number *"
-                  value={form.phone}
-                  onChange={e => setForm({ ...form, phone: e.target.value })}
-                  required
-                />
-                <select
-                  className="input-field text-gray-700"
-                  value={form.service}
-                  onChange={e => setForm({ ...form, service: e.target.value })}
-                  required
-                >
-                  <option value="">What treatment are you interested in? *</option>
-                  {SERVICES_LIST.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="btn-primary w-full disabled:opacity-70"
-                >
-                  {status === 'loading' ? 'Sending…' : 'Request Free Consultation →'}
-                </button>
-                <p className="text-center text-xs text-gray-400 mt-2">
-                  We'll call you — no spam, ever.
-                </p>
-              </form>
-            )}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ══════════════════════════════════════════════════════════
    Section 2 — Full Appointment Booking
@@ -257,7 +145,11 @@ function AppointmentSection() {
           <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-lg">
             {done ? (
               <div className="text-center py-10">
-                <div className="text-6xl mb-4">🎉</div>
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
                 <h3 className="text-2xl font-extrabold text-gray-900 mb-2">Appointment Booked!</h3>
                 <p className="text-gray-700 mb-1">Confirmed for <strong>{form.date}</strong> at <strong>{form.time}</strong>.</p>
                 <p className="text-gray-500 text-sm mb-6">Confirmation sent to {form.email}</p>
@@ -417,42 +309,8 @@ export default function BookPage() {
             <span>/</span><span className="text-white">Book Appointment</span>
           </div>
           <h1 className="hero-f2 text-5xl font-extrabold mb-4">Schedule Your Visit</h1>
-          <p className="hero-f3 text-white/85 text-xl max-w-xl leading-relaxed">
-            Two ways to get started — pick what suits you.
-          </p>
-          {/* Jump links */}
-          <div className="hero-f4 flex gap-4 mt-6">
-            <a href="#consultation" className="bg-white/20 hover:bg-white/30 border border-white/30 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all">
-              Quick Callback ↓
-            </a>
-            <a href="#appointment" className="bg-yellow-400 hover:bg-yellow-300 text-gray-900 text-sm font-bold px-5 py-2.5 rounded-xl transition-all shadow-lg">
-              Self-Schedule ↓
-            </a>
-          </div>
         </div>
       </section>
-
-      {/* Choice banner */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="container mx-auto px-6 py-8 grid sm:grid-cols-2 gap-4">
-          <a href="#consultation" className="group flex items-start gap-4 p-5 rounded-2xl border-2 border-primary-100 hover:border-primary-400 bg-primary-50 hover:bg-primary-50 transition-all">
-            <div className="w-11 h-11 bg-primary-600 text-white rounded-xl flex items-center justify-center flex-shrink-0 text-xl group-hover:scale-110 transition-transform">⚡</div>
-            <div>
-              <p className="font-bold text-gray-900 text-base">Quick Callback</p>
-              <p className="text-gray-600 text-sm mt-0.5">30 seconds. Leave your number and we call you.</p>
-            </div>
-          </a>
-          <a href="#appointment" className="group flex items-start gap-4 p-5 rounded-2xl border-2 border-teal-100 hover:border-teal-400 bg-teal-50 hover:bg-teal-50 transition-all">
-            <div className="w-11 h-11 bg-teal-600 text-white rounded-xl flex items-center justify-center flex-shrink-0 text-xl group-hover:scale-110 transition-transform">📅</div>
-            <div>
-              <p className="font-bold text-gray-900 text-base">Self-Schedule</p>
-              <p className="text-gray-600 text-sm mt-0.5">Pick your exact date and time slot online.</p>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <ConsultationSection />
       <AppointmentSection />
       </main>
       <Footer />

@@ -23,7 +23,8 @@ export default function Navbar() {
   const location                  = useLocation();
   const navigate                  = useNavigate();
   const isHome                    = location.pathname === '/';
-  const transparent               = !scrolled && isHome;
+  const isAbout = location.pathname === '/about';
+const transparent = !scrolled && (isHome || isAbout);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 40);

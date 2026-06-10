@@ -41,18 +41,18 @@ html { scroll-behavior: smooth; }
 }
 
 /* ── Scroll-reveal base states ─────────────────────────────────── */
-.reveal       { opacity: 0; transform: translateY(38px);  transition: opacity .7s ease, transform .7s ease; }
-.reveal-left  { opacity: 0; transform: translateX(-38px); transition: opacity .7s ease, transform .7s ease; }
-.reveal-right { opacity: 0; transform: translateX(38px);  transition: opacity .7s ease, transform .7s ease; }
-.reveal-scale { opacity: 0; transform: scale(.9);         transition: opacity .6s ease, transform .6s ease; }
+.reveal       { opacity: 0; transform: translateY(38px);  transition: opacity .4s ease, transform .4s ease; }
+.reveal-left  { opacity: 0; transform: translateX(-38px); transition: opacity .4s ease, transform .4s ease; }
+.reveal-right { opacity: 0; transform: translateX(38px);  transition: opacity .4s ease, transform .4s ease; }
+.reveal-scale { opacity: 0; transform: scale(.9);         transition: opacity .3s ease, transform .3s ease; }
 .is-visible   { opacity: 1 !important; transform: none !important; }
 
-.anim-d1 { transition-delay: .08s; }
-.anim-d2 { transition-delay: .18s; }
-.anim-d3 { transition-delay: .28s; }
-.anim-d4 { transition-delay: .38s; }
-.anim-d5 { transition-delay: .48s; }
-.anim-d6 { transition-delay: .58s; }
+.anim-d1 { transition-delay: .05s; }
+.anim-d2 { transition-delay: .10s; }
+.anim-d3 { transition-delay: .15s; }
+.anim-d4 { transition-delay: .20s; }
+.anim-d5 { transition-delay: .25s; }
+.anim-d6 { transition-delay: .30s; }
 
 .reveal:not(.is-visible),
 .reveal-left:not(.is-visible),

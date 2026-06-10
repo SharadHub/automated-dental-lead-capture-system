@@ -5,26 +5,26 @@ import useScrollAnimation from '../../hooks/useScrollAnimation';
 import { SERVICES, CLINIC } from '../../data/clinicData';
 
 /* ── Asset imports ── */
-import dentalCareImg   from '../../assets/images/dental-care.png';
-import implantImg      from '../../assets/images/dental-implant.png';
-import bracesImg       from '../../assets/images/braces.png';
-import dentistChairImg from '../../assets/images/dentist-chair.png';
-import sirenImg        from '../../assets/images/siren.png';
-import happyFaceImg    from '../../assets/images/happy-face.png';
-import medicalImg      from '../../assets/images/medical-appointment.png';
-import teamPhoto       from '../../assets/images/navy-medicine-aCJ2jt9yvoA-unsplash.jpg';
-import clinicPhoto     from '../../assets/images/kari-bjorn-photography-Fdku_oMrDvk-unsplash.jpg';
-import checkBoxImg     from '../../assets/images/undraw_checking-boxes_j0im.svg';
-import dotBlobImg      from '../../assets/images/dot-blob-1.svg';
+import teamPhoto  from '../../assets/images/navy-medicine-aCJ2jt9yvoA-unsplash.jpg';
+import dotBlobImg from '../../assets/images/dot-blob-1.svg';
 
-const IMG_MAP = {
-  'dental-care':    dentalCareImg,
-  'dental-implant': implantImg,
-  'braces':         bracesImg,
-  'dentist-chair':  dentistChairImg,
-  'siren':          sirenImg,
-  'happy-face':     happyFaceImg,
-  'medical-appointment': medicalImg,
+/* ── Icons ── */
+import {
+  FiShield, FiSun, FiAnchor, FiSmile, FiTool,
+  FiScissors, FiAward, FiUsers, FiAlertCircle,
+  FiCalendar, FiSearch, FiClipboard, FiHeart, FiPhone,
+} from 'react-icons/fi';
+
+const SERVICE_ICONS = {
+  general:   FiShield,
+  cosmetic:  FiSun,
+  implants:  FiAnchor,
+  braces:    FiSmile,
+  rootcanal: FiTool,
+  extraction: FiScissors,
+  crowns:    FiAward,
+  pediatric: FiUsers,
+  emergency: FiAlertCircle,
 };
 
 const ACCENT_MAP = {
@@ -92,22 +92,23 @@ function AllServices() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SERVICES.map(({ key, title, shortDesc, longDesc, imgKey, accent, icon }, i) => (
-            <div
-              key={key}
-              data-anim
-              className={`reveal anim-d${(i % 3) + 1} card-lift group p-7 rounded-2xl border ${ACCENT_MAP[accent]} transition-all`}
-            >
-              <div className={`${ICON_BG_MAP[accent]} w-14 h-14 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
-                {IMG_MAP[imgKey]
-                  ? <img src={IMG_MAP[imgKey]} alt={title} className="w-9 h-9 object-contain" />
-                  : <span className="text-2xl">{icon}</span>}
+          {SERVICES.map(({ key, title, shortDesc, longDesc, accent }, i) => {
+            const Icon = SERVICE_ICONS[key];
+            return (
+              <div
+                key={key}
+                data-anim
+                className={`reveal anim-d${(i % 3) + 1} card-lift group p-7 rounded-2xl border ${ACCENT_MAP[accent]} transition-all`}
+              >
+                <div className={`${ICON_BG_MAP[accent]} w-14 h-14 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
+                  {Icon && <Icon className="w-7 h-7 text-gray-700" />}
+                </div>
+                <h3 className="font-bold text-gray-900 text-base mb-2">{title}</h3>
+                <p className="text-gray-700 text-sm leading-relaxed mb-3">{shortDesc}</p>
+                <p className="text-gray-500 text-xs leading-relaxed">{longDesc}</p>
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">{title}</h3>
-              <p className="text-gray-700 text-sm leading-relaxed mb-3">{shortDesc}</p>
-              <p className="text-gray-500 text-xs leading-relaxed">{longDesc}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -118,10 +119,10 @@ function AllServices() {
 function HowItWorks() {
   const ref = useScrollAnimation();
   const steps = [
-    { n: '01', title: 'Book Online',         desc: 'Use our simple booking form or call us to schedule at a time that suits you.', icon: '📅' },
-    { n: '02', title: 'Initial Consultation', desc: `Meet ${CLINIC.doctor} for a thorough exam. We explain everything clearly, no surprises.`, icon: '🔍' },
-    { n: '03', title: 'Treatment Plan',       desc: 'Receive a personalised plan with transparent pricing before any work begins.', icon: '📋' },
-    { n: '04', title: 'Gentle Care',          desc: 'We perform your treatment with precision and care, ensuring maximum comfort throughout.', icon: '❤️' },
+    { n: '01', title: 'Book Online',          desc: 'Use our simple booking form or call us to schedule at a time that suits you.',                                    Icon: FiCalendar  },
+    { n: '02', title: 'Initial Consultation', desc: `Meet ${CLINIC.doctor} for a thorough exam. We explain everything clearly, no surprises.`,                        Icon: FiSearch    },
+    { n: '03', title: 'Treatment Plan',       desc: 'Receive a personalised plan with transparent pricing before any work begins.',                                    Icon: FiClipboard },
+    { n: '04', title: 'Gentle Care',          desc: 'We perform your treatment with precision and care, ensuring maximum comfort throughout.',                         Icon: FiHeart     },
   ];
 
   return (
@@ -134,10 +135,10 @@ function HowItWorks() {
           </h2>
         </div>
         <div className="grid md:grid-cols-4 gap-6">
-          {steps.map(({ n, title, desc, icon }, i) => (
+          {steps.map(({ n, title, desc, Icon }, i) => (
             <div key={n} data-anim className={`reveal anim-d${i + 1} text-center`}>
-              <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-600 text-white text-2xl mb-4 shadow-lg shadow-primary-200">
-                {icon}
+              <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-600 text-white mb-4 shadow-lg shadow-primary-200">
+                <Icon className="w-7 h-7" />
                 <span className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full text-gray-900 text-xs font-extrabold flex items-center justify-center">{n}</span>
               </div>
               <h3 className="font-bold text-gray-900 mb-2">{title}</h3>
@@ -192,7 +193,7 @@ function ServicesCTA() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/book" className="btn-primary">Book Appointment →</Link>
-            <a href={`tel:${CLINIC.phone}`} className="btn-secondary">📞 {CLINIC.phone}</a>
+            <a href={`tel:${CLINIC.phone}`} className="btn-secondary flex items-center justify-center gap-2"><FiPhone size={15} /> {CLINIC.phone}</a>
           </div>
         </div>
       </div>

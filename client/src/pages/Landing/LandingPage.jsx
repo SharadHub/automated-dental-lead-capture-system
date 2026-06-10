@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import HeroSection from './sections/HeroSection';
 import Footer from './sections/Footer';
-import ChatWidget from '../../components/ChatWidget/ChatWidget';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 import { SERVICES, TESTIMONIALS, CLINIC } from '../../data/clinicData';
 
@@ -200,7 +199,6 @@ export default function LandingPage() {
       <CTABanner />
       </main>
       <Footer />
-      <ChatWidget />
     </div>
   );
 }

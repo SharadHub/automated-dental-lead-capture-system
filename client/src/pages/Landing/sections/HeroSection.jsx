@@ -1,37 +1,9 @@
-import { useState } from 'react';
 import heroImg  from '../../../assets/images/mohamed_hassan-dentist-8576790_1920.png';
 import toothImg from '../../../assets/images/yamu_jay-tooth-8884057_1920.png';
 import waveSvg  from '../../../assets/images/wave-haikei.svg';
 import { CLINIC } from '../../../data/clinicData';
 
 export default function HeroSection() {
-  const [form, setForm]           = useState({ name: '', phone: '', service: '' });
-  const [status, setStatus]       = useState('idle'); // idle | loading | success
-
-  const services = [
-    'General Checkup & Cleaning', 'Teeth Whitening', 'Dental Implants',
-    'Braces & Orthodontics', 'Root Canal Treatment', 'Tooth Extraction',
-    'Crowns, Bridges & Dentures', 'Pediatric Dentistry', 'Emergency Dental Care',
-  ];
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('loading');
-    try {
-      await fetch('/api/prospects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source: 'hero', message: `Quick inquiry for: ${form.service}` }),
-      });
-    } catch { /* best-effort */ }
-
-    setStatus('success');
-    /* Show "Request Received!" for exactly 1 second, then reset */
-    setTimeout(() => {
-      setStatus('idle');
-      setForm({ name: '', phone: '', service: '' });
-    }, 1000);
-  };
 
   return (
     <section className="relative bg-gradient-to-br from-primary-700 via-primary-600 to-teal-600 min-h-screen flex items-center overflow-hidden">
@@ -82,52 +54,6 @@ export default function HeroSection() {
                 <div className="text-xs text-white/70 mt-0.5">{label}</div>
               </div>
             ))}
-          </div>
-
-          {/* Mini consultation form */}
-          <div className="hero-f5 bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/20 max-w-md">
-            {status === 'success' ? (
-              <div className="py-2 text-center">
-                <p className="text-white font-semibold text-lg">✅ We'll call you back!</p>
-                <p className="text-white/70 text-sm mt-1">Expect a call within 24 hours.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-3">
-                <p className="text-white/90 font-semibold text-sm">Get a free callback — takes 30 seconds</p>
-                <div className="grid grid-cols-2 gap-2">
-                  <input
-                    className="bg-white/15 border border-white/25 text-white placeholder-white/60 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-white/50 w-full"
-                    placeholder="Your Name *"
-                    value={form.name}
-                    onChange={e => setForm({ ...form, name: e.target.value })}
-                    required
-                  />
-                  <input
-                    className="bg-white/15 border border-white/25 text-white placeholder-white/60 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-white/50 w-full"
-                    placeholder="Phone Number *"
-                    value={form.phone}
-                    onChange={e => setForm({ ...form, phone: e.target.value })}
-                    required
-                  />
-                </div>
-                <select
-                  className="bg-white/15 border border-white/25 text-white rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-white/50 w-full"
-                  value={form.service}
-                  onChange={e => setForm({ ...form, service: e.target.value })}
-                  required
-                >
-                  <option value="" className="text-gray-900">What treatment? *</option>
-                  {services.map(s => <option key={s} value={s} className="text-gray-900">{s}</option>)}
-                </select>
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="w-full bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold py-3 rounded-xl transition-colors shadow-lg disabled:opacity-70 text-sm"
-                >
-                  {status === 'loading' ? 'Sending…' : 'Get Free Callback →'}
-                </button>
-              </form>
-            )}
           </div>
         </div>
 
