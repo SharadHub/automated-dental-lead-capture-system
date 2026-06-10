@@ -1,6 +1,5 @@
 const db = require('../config/db');
 const { isSlotAvailable, getAvailableSlots, getAvailableDates } = require('../services/calendar.service');
-const { notifyOwner, sendAppointmentConfirmation } = require('../services/email.service');
 
 async function getAll(req, res, next) {
   try {
@@ -52,25 +51,6 @@ async function create(req, res, next) {
     await db.query(
       `UPDATE prospects SET status = 'lead' WHERE id = $1 AND status = 'prospect'`,
       [prospect_id]
-    );
-
-    // Get prospect info
-    const prospectResult = await db.query('SELECT * FROM prospects WHERE id = $1', [prospect_id]);
-    const prospect = prospectResult.rows[0];
-
-    // Notify owner + send confirmation email
-    notifyOwner({ type: 'appointment_booked', prospect, appointment }).catch(console.error);
-    sendAppointmentConfirmation(prospect, appointment).catch(console.error);
-
-    // Create notification
-    await db.query(
-      `INSERT INTO notifications (type, title, body, data) VALUES ($1, $2, $3, $4)`,
-      [
-        'appointment_booked',
-        `Appointment booked: ${prospect?.name || 'Unknown'}`,
-        `${service} on ${appointment_date} at ${appointment_time}`,
-        JSON.stringify({ appointment_id: appointment.id, prospect_id }),
-      ]
     );
 
     res.status(201).json(appointment);

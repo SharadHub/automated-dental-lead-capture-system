@@ -87,13 +87,9 @@ async function getRecentActivity(req, res, next) {
       LEFT JOIN prospects p ON a.prospect_id = p.id
       ORDER BY a.created_at DESC LIMIT 5
     `);
-    const notifications = await db.query(
-      'SELECT * FROM notifications ORDER BY created_at DESC LIMIT 10'
-    );
     res.json({
       recentProspects: prospects.rows,
       recentAppointments: appointments.rows,
-      notifications: notifications.rows,
     });
   } catch (err) { next(err); }
 }

@@ -1,5 +1,4 @@
 const db = require('../config/db');
-const { notifyOwner } = require('../services/email.service');
 
 async function getAll(req, res, next) {
   try {
@@ -52,21 +51,6 @@ async function create(req, res, next) {
       [name, email, phone, source, service_interest, message, JSON.stringify(metadata || {})]
     );
     const prospect = result.rows[0];
-
-    // Create notification
-    await db.query(
-      `INSERT INTO notifications (type, title, body, data) VALUES ($1, $2, $3, $4)`,
-      [
-        'new_lead',
-        `New prospect: ${name || email}`,
-        `Source: ${source} | Interest: ${service_interest || 'N/A'}`,
-        JSON.stringify({ prospect_id: prospect.id }),
-      ]
-    );
-
-    // Email owner
-    notifyOwner({ type: 'new_lead', prospect }).catch(console.error);
-
     res.status(201).json(prospect);
   } catch (err) { next(err); }
 }
@@ -97,17 +81,4 @@ async function update(req, res, next) {
   } catch (err) { next(err); }
 }
 
-async function getConversations(req, res, next) {
-  try {
-    const result = await db.query(
-      `SELECT c.*,
-        (SELECT content FROM messages WHERE conversation_id = c.id ORDER BY created_at DESC LIMIT 1) as last_message,
-        (SELECT COUNT(*) FROM messages WHERE conversation_id = c.id) as message_count
-       FROM conversations c WHERE c.prospect_id = $1 ORDER BY c.created_at DESC`,
-      [req.params.id]
-    );
-    res.json(result.rows);
-  } catch (err) { next(err); }
-}
-
-module.exports = { getAll, getOne, create, update, getConversations };
+module.exports = { getAll, getOne, create, update };
